@@ -1,0 +1,41 @@
+CK29 "H11": "?R brgyad stong, ka lbl-450a4 / (ornamental ed.) Ibl-523b2 [523b3-578a3] (vol. 29) ",
+
+CK 145  "J72": "?R mdo sde, da lbl-179a8, 180al-180a4 (vol. 50) ",
+
+CK493 "N426": "?R /428/427 rgyud, ja 65a3-68b4; 69b7-70b3; 68b4-69b7 (vol. 86) C 109 rgyud, ja 160al-164a4 (vol. 7) H 436 rgyud, ca 416b6-422a3 (vol. 83) J 44 9 rgyud 'bum, ja 151al-154b2 (vol. 90) U 4 69 rgyud 'bum, ja 164al-167b5 (vol. 84) Notes: Narthang texts are in a different sequence from the consolidated version; their individual titles are: dpalgshin rje gshedkyi'khor lo bri ba'i cho ga (N 426), las kyi grogs kyi bya ba (",
+
+CK858 "C475": "?R +476 rgyud,'a lbl-4ai; 4al-4a7 (vol. 23) ",
+
+"CK1116": "99@3-842;100@3-274",
+ "J1006": "?R dri med 'od, a lbl-126a4; l lbl-94a8; u lbl-62a8; f lbl-102b5; 1 lbl-122a2 (vol. 108) ",
+ "U1111": "?R dri med 'od, shrl lbl-355a3; 355['og]al-469a7 (vol. 103-104)"
+}
+
+
+ "CK1138": "103@626-638;10@173,174",
+ "D841h": "99@220a3-223b6",
+ "Q464h": "?Q +465 rgyud, zha 224a7-226b2; 226b2-228a4 (vol. 10, pp. 173, 174) ",
+ "N757h": "?R  +758 rgyud, zha 308a4-310b65 310b6-312b7 (vol. 100) ",
+ "C469h": "?R  +470 rgyud, zha 232bl-234b5; 234b5-236a8 (vol. 21) ",
+ "H805h": "99@323b4-329a5",
+ "J759h": "104@202b1-205b3",
+ "U842h": "?R +843 rnying rgyud, ga 220a3-222a5; 222a5-223b6 (vol. 100) Notes: The alternate titles are given in the colophon to the first text, and at the opening of the second."
+
+
+
+ "CK1023a": "98@583-584,585",
+
+
+ "K403a": "79@180-205,209-211",
+ "K403b": "79@205-209,211",
+ "K405a": "79@216-410,469-515",
+  "K405b": "79@410-469,515-529",
+  "K440a": "80@3-33,75-81",
+   "K440b": "80@33-75,81-92",
+   "K797a": "96@238-267,284-287,289",
+    "K797b": "96@268-284,287-289",
+
+    "K858": "97@3-9;11@63,65",
+
+    "K1080a": "98@821-822,823-824",
+    to 1082
