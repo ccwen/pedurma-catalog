@@ -22,7 +22,7 @@
 {
  "K3": "5@62-808;6@3-784;7@3-833;8@3-735",
  "D3": "5@21a1-292a7;6@1b1-287a7;7@1b1-287a7;8@1b1-269a6",
- "Q1032": "?Q 'dul ba, che 18b2-369a5; je lal-265a7; nye lal-268a7; te lal-254a5 (vol. 42, p. 149; vol. 43, p.l) 4 • Comparative Kangyur ",
+ "Q1032": "?Q 'dul ba, che 18b2-369a5; je lal-265a7; nye lal-268a7; te lal-254a5 (vol. 42, p. 149; vol. 43, p.l) 4 ??Comparative Kangyur ",
  "N3": "5@30b2-439a6;6@1b1-431a7;7@1b1-446a6;8@1b1-417a6",
  "C1033": "99@23a6-334a7;100@1b1-328a4;101@1b1-351a7;102@1b1-323a8",
  "H3": "5@30a6-413a7;6@1b1-402a1;7@1b1-423a6;8@1b1-386a5",
@@ -209,8 +209,8 @@
 },
 {
  "K27": "29@3-756;30@3-779;31@3-529",
- "D10": "29@1b1-300a71;30@1b1-304a7;31@1b1-206a7",
- "Q732": "?Q sher phyin, ni lal-282a8; pi lal-281a8; phi lal-223b8 (vol. 19-20) Nil khri brgyad, ka lbl-514a5; kha lbl-545a5; ga lbl-213a4 (vol. 29-31) 10 • Comparative Kangyur ",
+ "D10": "29@1b1-300a7;30@1b1-304a7;31@1b1-206a7",
+ "Q732": "?Q sher phyin, ni lal-282a8; pi lal-281a8; phi lal-223b8 (vol. 19-20) Nil khri brgyad, ka lbl-514a5; kha lbl-545a5; ga lbl-213a4 (vol. 29-31) 10 ??Comparative Kangyur ",
  "C1027": "79@1b1-350a3;80@1b1-341a8;81@1b1-242a3",
  "H12": "30@1b1-453a51;31@1b1-449a3;32@1b1-317a5",
  "J11": "34@1b1-314a7;35@1b1-320a7;36@1b1-211a8",
@@ -218,7 +218,7 @@
 },
 {
  "K28": "31@530-763;32@3-764",
- "D11": "31@1b1-91a6;32@1b1-397a7",
+ "D11": "31@207b1-297a6;32@1b1-397a7",
  "Q733": "?Q sher phyin, bi lal-317a8 (vol. 20, p.2055 vol. 21, p.l) ",
  "N12": "32@1b1-613a7",
  "C1028": "81@1b1-102a4;82@1b1-363a8",
@@ -351,7 +351,7 @@
 {
  "K43": "34@497-502",
  "D26": "34@175b3-176b6",
- "Q742": "?Q sher phyin, tsi 179al-180a7 (vol. 21, p.257) 14 • Comparative Kangyur ",
+ "Q742": "?Q sher phyin, tsi 179al-180a7 (vol. 21, p.257) 14 ??Comparative Kangyur ",
  "N27": "34@264a4-266a3",
  "C1009": "78@189b4-191a6",
  "H27": "34@261a3-263a3",
@@ -390,7 +390,7 @@
 {
  "K47": "34@514-516",
  "D30": "34@178b6-179a7",
- "Q746": "?Q sher phyin, tsi 182b8-183b3 (vol. 21, p.259) Prajndparamita ■ 15 ",
+ "Q746": "?Q sher phyin, tsi 182b8-183b3 (vol. 21, p.259) Prajndparamita ??15 ",
  "N31": "34@269a5-270a5",
  "C1013": "78@193b7-194b3",
  "H31": "34@266b1-267a7",
@@ -430,7 +430,7 @@
 {
  "K51": "34@753-764",
  "D34": "34@259b4-263a4",
- "Q750": "?Q sher phyin, tsi 275al-278b5 (vol. 21, p.296) 16 ■ Comparative Kangyur ",
+ "Q750": "?Q sher phyin, tsi 275al-278b5 (vol. 21, p.296) 16 ??Comparative Kangyur ",
  "N350": "76@558b6-564b2",
  "C1017": "78@289b5-293b4",
  "H35": "34@403b5-409a6",
@@ -668,7 +668,7 @@
 {
  "K75": "41@737-774",
  "D58": "41@237a1-248a7",
- "Q760": "?Q (13) dkon brtsegs, wi 234a3-248a3 (vol. 23, p.95) Ratnakuta • 23 ",
+ "Q760": "?Q (13) dkon brtsegs, wi 234a3-248a3 (vol. 23, p.95) Ratnakuta ??23 ",
  "N44": "37@408a1-426b6",
  "C1029": "85@280b7-294a3",
  "H57": "37@380b5-399b2",
@@ -1176,7 +1176,7 @@
 {
  "K127": "49@748-767",
  "D109": "49@285a1-292a7",
- "Q777": "?Q mdo sna tshogs, ngu 313bl-321a5 (vol. 29, p. 127) Sutra: Mahayana Sutra • 37 ",
+ "Q777": "?Q mdo sna tshogs, ngu 313bl-321a5 (vol. 29, p. 127) Sutra: Mahayana Sutra ??37 ",
  "N97": "51@456b5-468a5",
  "C750": "29@351a1-359a3",
  "H112": "51@462a2-473a7",
@@ -1522,7 +1522,7 @@
 {
  "K162": "57@20-93",
  "D144": "57@6b6-34a3",
- "Q812": "?Q mdo sna tshogs, nu 7a6-37a8 (vol. 32, p.233) 46 • Comparative Kangyur ",
+ "Q812": "?Q mdo sna tshogs, nu 7a6-37a8 (vol. 32, p.233) 46 ??Comparative Kangyur ",
  "N131": "57@10b5-57a4",
  "C785": "37@7b3-35a6",
  "H146": "57@1a7-57a3",
@@ -1629,7 +1629,7 @@
 {
  "K173": "58@539-541",
  "D155": "58@205a6-205b7",
- "Q822": "?Q mdo sna tshogs, pu 213a7-213b7 (vol. 33, p.129) Sutra: Mahayana Sutra ■ 49 ",
+ "Q822": "?Q mdo sna tshogs, pu 213a7-213b7 (vol. 33, p.129) Sutra: Mahayana Sutra ??49 ",
  "N141": "58@317a1-317b5",
  "C795": "38@248a6-248b8",
  "H156": "58@313b2-314a4",
@@ -1778,7 +1778,7 @@
 {
  "K188": "59@852-862",
  "D170": "59@307b1-310b3",
- "Q837": "?Q mdo sna tshogs, phu 323a6-326b8 (vol. 33, p.307) Sutra: Mahayana Sutra • 53 ",
+ "Q837": "?Q mdo sna tshogs, phu 323a6-326b8 (vol. 33, p.307) Sutra: Mahayana Sutra ??53 ",
  "N156": "59@498a4-503b3",
  "C810": "39@370b1-374b5",
  "H171": "59@490a3-495a4",
@@ -1968,7 +1968,7 @@
 {
  "K207": "61@536-541",
  "D189": "61@199b6-201a6",
- "Q856": "?Q mdo sna tshogs, mu 209b3-211a4 (vol. 34, p.212) 58 • Comparative Kangyur ",
+ "Q856": "?Q mdo sna tshogs, mu 209b3-211a4 (vol. 34, p.212) 58 ??Comparative Kangyur ",
  "N175": "61@321b3-324a6",
  "C829": "41@245b1-247b2",
  "H190": "61@314a6-316b5",
@@ -2008,7 +2008,7 @@
 {
  "K211": "61@668-680",
  "D193": "61@246a7-250b3",
- "Q860": "?Q mdo sna tshogs, mu 256b5-260b4 (vol. 34, p.230) Sutra: Mahayana Sutra • 59 ",
+ "Q860": "?Q mdo sna tshogs, mu 256b5-260b4 (vol. 34, p.230) Sutra: Mahayana Sutra ??59 ",
  "N179": "61@397a2-403b3",
  "C833": "41@304b6-309b2",
  "H194": "61@390a6-396b7",
@@ -2047,7 +2047,7 @@
 {
  "K215": "61@740-750",
  "D197": "61@271b2-274b5",
- "Q864": "?Q mdo sna tshogs, mu 280a3-283a3 (vol. 34, p.240) 60 • Comparative Kangyur ",
+ "Q864": "?Q mdo sna tshogs, mu 280a3-283a3 (vol. 34, p.240) 60 ??Comparative Kangyur ",
  "N183": "61@435b1-440b4",
  "C837": "41@333b7-337b3",
  "H198": "61@428b1-433b5",
@@ -2202,7 +2202,7 @@
 {
  "K231": "62@347-549",
  "D213": "62@126a1-206b7",
- "Q879": "?Q mdo sna tshogs, tsu 133b2-215al (vol. 34, p.207) 64 • Comparative Kangyur ",
+ "Q879": "?Q mdo sna tshogs, tsu 133b2-215al (vol. 34, p.207) 64 ??Comparative Kangyur ",
  "U214": "62@207b7-332a3"
 },
 {
@@ -2634,7 +2634,7 @@
 {
  "K277": "66@717-730",
  "D259": "66@259b5-264a4",
- "Q925": "?Q mdo sna tshogs, zhu 274a2-278b3 (vol. 36, p.245) 76 • Comparative Kangyur ",
+ "Q925": "?Q mdo sna tshogs, zhu 274a2-278b3 (vol. 36, p.245) 76 ??Comparative Kangyur ",
  "N244": "66@371a2-377a7",
  "C898": "46@289a4-294a2",
  "H261": "67@24a2-30b7",
@@ -2934,7 +2934,7 @@
 {
  "K307": "71@644-660",
  "D289": "71@244b1-249b7",
- "Q955": "?Q mdo sna tshogs, lu 268a8-274bl (vol. 38, p.275) 84 • Comparative Kangyur ",
+ "Q955": "?Q mdo sna tshogs, lu 268a8-274bl (vol. 38, p.275) 84 ??Comparative Kangyur ",
  "N274": "71@373b3-383a6",
  "C928": "51@287b1-294a7",
  "H292": "71@467b4-476b2",
@@ -3409,7 +3409,7 @@
 {
  "K357": "72@808-866",
  "D338": "72@277a4-298b7",
- "Q1005": "?Q mdo sna tshogs, shu 287a5-310b3 (vol. 39, p. 117) 96 • Comparative Kangyur ",
+ "Q1005": "?Q mdo sna tshogs, shu 287a5-310b3 (vol. 39, p. 117) 96 ??Comparative Kangyur ",
  "N323": "72@434a4-464a6",
  "C977": "52@331b5-358a1",
  "H344": "72@455a7-490b5",
@@ -4331,7 +4331,7 @@
 {
  "K460": "81@139-144",
  "D438": "81@42b3-43b6",
- "Q77": "?Q rgyud, ca 45a3-46a7 (vol. 3, p. 154) Tantra: Anuttara-yoga-tantra ■ 123 ",
+ "Q77": "?Q rgyud, ca 45a3-46a7 (vol. 3, p. 154) Tantra: Anuttara-yoga-tantra ??123 ",
  "N400": "83@286b6-288b3",
  "C77": "5@49a2-50a6",
  "H412": "82@299b5-301a6",
@@ -4460,7 +4460,7 @@
 {
  "K475": "82@150-265",
  "D452": "82@58b3-103a3",
- "Q87": "?Q rgyud, cha lal-42b8 (vol. 3, p.265) Tantra: Anuttara-yoga-tantra • 127 ",
+ "Q87": "?Q rgyud, cha lal-42b8 (vol. 3, p.265) Tantra: Anuttara-yoga-tantra ??127 ",
  "N411": "84@379a1-432b4",
  "C89": "6@1b1-50a5",
  "H789": "96@454b1-517a7",
@@ -4759,7 +4759,7 @@
 {
  "K508": "85@164-274",
  "D483": "85@58b1-96a3",
- "Q116": "?Q rgyud, ta 52bl-94a2 (vol. 5, p.83) 136 ■ Comparative Kangyur ",
+ "Q116": "?Q rgyud, ta 52bl-94a2 (vol. 5, p.83) 136 ??Comparative Kangyur ",
  "N442": "88@1b1-61b7",
  "C118": "9@55a8-99b6",
  "H457": "85@353b5-412b5",
@@ -4946,7 +4946,7 @@
 {
  "K527": "87@543-742",
  "D502": "87@181a2-247a7",
- "Q134": "?Q rgyud, da 166a6-230a5 (vol. 6, p. 100) 142 • Comparative Kangyur ",
+ "Q134": "?Q rgyud, da 166a6-230a5 (vol. 6, p. 100) 142 ??Comparative Kangyur ",
  "N452": "89@334b5-433b3",
  "H470": "87@273a5-380b3",
  "J474": "94@174b3-245b8",
@@ -5918,7 +5918,7 @@
 {
  "K628": "90@855-856",
  "D600": "90@260a1-260a3",
- "Q224": "?Q rgyud, pha 302a3-302a6 (vol. 7, p.197) 168 • Comparative Kangyur ",
+ "Q224": "?Q rgyud, pha 302a3-302a6 (vol. 7, p.197) 168 ??Comparative Kangyur ",
  "N533": "92@297a4-297b1",
  "C229": "14@339b4-339b7",
  "H562": "90@325a3-325a7",
@@ -6055,7 +6055,7 @@
 {
  "K642": "91@160-177",
  "D614": "91@47b1-52a5",
- "Q309": "?Q rgyud, ba 78a4-83a4 (vol. 7, p.235)’ ",
+ "Q309": "?Q rgyud, ba 78a4-83a4 (vol. 7, p.235)??",
  "N569": "92@416b2-424b1",
  "C314": "15@90b4-96b2",
  "H598": "90@444b1-452a6",
@@ -6317,7 +6317,7 @@
 {
  "K669": "91@449-456",
  "D641": "91@124a5-126a5",
- "Q327": "?Q rgyud, ba 152a2-154al (vol. 7, p.265) Tantra: Kriya-tantra ***** inserted 20140623 sam ***** • 179 ",
+ "Q327": "?Q rgyud, ba 152a2-154al (vol. 7, p.265) Tantra: Kriya-tantra ***** inserted 20140623 sam ***** ??179 ",
  "C332": "15@176b5-178b7",
  "H620": "91@92b3-95b6",
  "J645": "98@153b7-155b8",
@@ -7030,7 +7030,7 @@
 {
  "K746": "93@545-546",
  "D715": "93@179a2-179a5",
- "Q239": "?Q rgyud, pha 304b7-305a2 (vol. 7, p.198) 198 • Comparative Kangyur ",
+ "Q239": "?Q rgyud, pha 304b7-305a2 (vol. 7, p.198) 198 ??Comparative Kangyur ",
  "N545": "92@300a3-300a7",
  "C244": "14@343a2-343a5",
  "H572": "90@328a6-328b3",
@@ -8867,7 +8867,7 @@
 {
  "K952": "97@875-876",
  "D940": "101@282a6-282a7",
- "Q565": "?Q rgyud, 'a 278al-278a2 (vol. 11, p.175) 248 • Comparative Kangyur ",
+ "Q565": "?Q rgyud, 'a 278al-278a2 (vol. 11, p.175) 248 ??Comparative Kangyur ",
  "C570": "23@303a2-303a4",
  "J857": "106@275b1-275b3",
  "U942": "101@282a6-282a7"
