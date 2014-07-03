@@ -94,17 +94,20 @@ function volRange(lineRangeId,linesPerPage){var m, lineId, lineBgn, lineEnd
 }
 /////////////////////////////////////////////////////////////////////////////
 assert('volRanges("1@1b1-311a6;2@1b1-317a7;3@1b1-293a6;4@1b1-302a5",7)',
-	[17062,'1',4339,8,'2',4424,8,'3',4087,8,'4',4212,8])
-// [bookLines,volLines,vol,volLineBgn],...]
+	[{bookLines:17062}
+	,{vol:'1',volLines:4339,volLineBgn:8}
+	,{vol:'2',volLines:4424,volLineBgn:8}
+	,{vol:'3',volLines:4087,volLineBgn:8}
+	,{vol:'4',volLines:4212,volLineBgn:8}])
 /////////////////////////////////////////////////////////////////////////////
 function volRanges(volRangesId,linesPerPage){var m,vol,volRangeId,r,volLines,bookLines=0,result=[]
 	volRangesId.split(';').forEach(function(range){
 		m=range.split(/@/), vol=m[0], volRangeId=m[1]
 		r=volRange(volRangeId,linesPerPage)
 		volLines=r.end-r.bgn+1, bookLines+=volLines
-		result.push(vol),result.push(volLines),result.push(r.bgn)
+		result.push({vol:vol,volLines:volLines,volLineBgn:r.bgn})
 	})
-	result.unshift(bookLines)
+	result.unshift({bookLines:bookLines})
 	return result
 }
 /////////////////////////////////////////////////////////////////////////////
@@ -153,31 +156,31 @@ for(j in jRedef){ console.log('????? J'+j,'redefined in',jRedef[j].join(', ')) }
 assert('DJ[  "1"].k',"1")
 assert('DJ[  "1"].d',"1")
 assert('DJ[  "1"].dv',"1@1b1-311a6;2@1b1-317a7;3@1b1-293a6;4@1b1-302a5")
-assert('DJ[  "1"].dvn',[17062,"1",4339,8,"2",4424,8,"3",4087,8,"4",4212,8])
+assert('DJ[  "1"].dvn',[{"bookLines":17062},{"vol":"1","volLines":4339,"volLineBgn":8},{"vol":"2","volLines":4424,"volLineBgn":8},{"vol":"3","volLines":4087,"volLineBgn":8},{"vol":"4","volLines":4212,"volLineBgn":8}])
 assert('DJ[  "1"].j',"1")
 assert('DJ[  "1"].jv',"1@1b1-314a9;2@1b1-319a8;3@1b1-315a8;4@1b1-306a6")
-assert('DJ[  "1"].jvn',[19999,"1",5009,9,"2",5088,9,"3",5024,9,"4",4878,9])
+assert('DJ[  "1"].jvn',[{"bookLines":19999},{"vol":"1","volLines":5009,"volLineBgn":9},{"vol":"2","volLines":5088,"volLineBgn":9},{"vol":"3","volLines":5024,"volLineBgn":9},{"vol":"4","volLines":4878,"volLineBgn":9}])
 assert('DJ["357"].k',"377")
 assert('DJ["357"].d',"357")
 assert('DJ["357"].dv',"76@220b6-232a7")
-assert('DJ["357"].dvn',[163,"76",163,3079])
+assert('DJ["357"].dvn',[{"bookLines":163},{"vol":"76","volLines":163,"volLineBgn":3079}])
 assert('DJ["357"].j',"296")
 assert('DJ["357"].jv',"71@229a2-242a2")
-assert('DJ["357"].jvn',[209,"71",209,3650])
+assert('DJ["357"].jvn',{"bookLines":209},{"vol":"71","volLines":209,"volLineBgn":3650})
 assert('JD["2"].k',"2")
 assert('JD["2"].j',"2")
 assert('JD["2"].jv',"5@1b1-21b4")
-assert('JD["2"].jvn',[324,"5",324,9])
+assert('JD["2"].jvn',[{"bookLines":324},{"vol":"5","volLines":324,"volLineBgn":9}])
 assert('JD["2"].d',"2")
 assert('JD["2"].dv',"5@1b1-20b7")
-assert('JD["2"].dvn',[273,"5",273,8])
+assert('JD["2"].dvn',[{"bookLines":273},{"vol":"5","volLines":273,"volLineBgn":8}])
 assert('JD["8a"].k',"8")
 assert('JD["8a"].j',"8a")
 assert('JD["8a"].jv',"12@94a1-297a7;13@1b1-321a6")
-assert('JD["8a"].jvn',[8373,"12",3255,1489,"13",5118,9])
+assert('JD["8a"].jvn',[{"bookLines":8373},{"vol":"12","volLines":3255,"volLineBgn":1489},{"vol":"13","volLines":5118,"volLineBgn":9}])
 assert('JD["8a"].d',"7b")
 assert('JD["8a"].dv',"12@92b1-302a7;13@1b1-313a5")
-assert('JD["8a"].dvn',[7306,"12",2940,1282,"13",4366,8])
+assert('JD["8a"].dvn',[{"bookLines":7306},{"vol":"12","volLines":2940,"volLineBgn":1282},{"vol":"13","volLines":4366,"volLineBgn":8}])
 /////////////////////////////////////////////////////////////////////////////
 function compare(a,b,fld){ var x,ia,fa,ib,fb
 	x=(ia=parseInt(fa=fld?a[fld]:a))-(ib=parseInt(fb=fld?b[fld]:b))  // 先比數值
@@ -225,25 +228,26 @@ function djmaping(dLnId){
 	if(!m) { console.log('????? invalited D LineId '+dLnId); return }
 	vol=m[1], volLine=line(m[2],linesPerPageD)
 	for(i=0; i<dj.length; i++){ // search in all D books for dLnId
-		dji=dj[i], dvn=dji.dvn, dBookLines=dvn[0], at=0, jvn=dji.jvn, jBookLines=jvn[0]
-		for(j=1;j<dvn.length;j+=3){ // search in all vols of a D book for dLnId
-			if( vol===dvn[j] && (volLines=dvn[j+1])<=volLines+(volLineBgn=dvn[j+2]) ) { // found
+		dji=dj[i], dvn=dji.dvn, dBookLines=dvn[0].bookLines, at=0, jvn=dji.jvn, jBookLines=jvn[0].bookLines
+		for(j=1;j<dvn.length;j++){ // search in all vols of a D book for dLnId
+			var dvnj=dvn[j]
+			if( vol===dvnj.vol && (volLines=dvnj.volLines)<=volLines+(volLineBgn=dvnj.volLineBgn) ) { // found
 				msg ='searching D '+dLnId+' founded in dj (K'+dji.k+')\n'
 				msg+='D'+dji.d+' '+dji.dv+' '+(at+=volLine-volLineBgn)+'/'+dBookLines+' '+dLnId+'\n'
 				msg+='J'+dji.j+' '+dji.jv+' '+(at=Math.round(at/dBookLines*jBookLines))+'/'+jBookLines
-				for(j=1;j<jvn.length;j+=3){
-					if(at<(n=jvn[j+1])){
-						jLnId=jvn[j]+'@'+lineId(at+jvn[j+2],linesPerPageJ)
+				for(j=1;j<jvn.length;j++){
+					var jvnj=jvn[j]
+					if(at<(n=jvnj.volLines)){
+						jLnId=jvnj.vol+'@'+lineId(at+jvnj.volLineBgn,linesPerPageJ)
 						console.log(msg+' '+jLnId)
 						return 'J'+dji.j+':'+jLnId
 					}
 					at-=n
 				}
 			}
-			at+=dvn[j+1]
+			at+=dvnj.volLines
 		}
 	}
-	return r
 }
 /////////////////////////////////////////////////////////////////////////////
 assert("djmaping('1@1b1')","J1:1@1b1")
