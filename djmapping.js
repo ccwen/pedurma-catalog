@@ -1,73 +1,27 @@
-// djmapping.js // read jinglu.json, construct DJ and JD, search dLineId, return jLineId
+// djmapping.js // line, lineId, volRange, volRanges, compare, dCompare, jCompare
+var linesPerPageD=7, linesPerPageJ=8
 /////////////////////////////////////////////////////////////////////////////
-// djmaping('1@1b1') ==> 'J1:1@1b1'
+// djmapping('1@1b1') ==> 'J1:1@1b1'
 // searching D 1@1b1 founded in dj (K1)
 // D1 1@1b1-311a6;2@1b1-317a7;3@1b1-293a6;4@1b1-302a5 0/17062 <== 1@1b1
 // J1 1@1b1-314a9;2@1b1-319a8;3@1b1-315a8;4@1b1-306a6 0/19999 ==> 1@1b1
-// djmaping('31@207b1') ==> "J12:36@1b1"
+// djmapping('31@207b1') ==> "J12:36@1b1"
 // searching D 31@207b1 founded in dj (K28)
 // D11 31@207b1-297a6;32@1b1-397a7 0/6803 <== 31@207b1
 // J12 36@1b1-92a8;37@93b1-400a7 0/6367 ==> 36@1b1
-// djmaping('32@397a7') ==> "J12:37@400a7"
+// djmapping('32@397a7') ==> "J12:37@400a7"
 // searching D 32@397a7 founded in dj (K28)
 // D11 31@207b1-297a6;32@1b1-397a7 6802/6803 <== 32@397a7
 // J12 36@1b1-92a8;37@93b1-400a7 6366/6367 ==> 37@400a7
-// djmaping('31@297a6') ==> "J12:36@75a2"
+// djmapping('31@297a6') ==> "J12:36@75a2"
 // searching D 31@297a6 founded in dj (K28)
 // D11 31@207b1-297a6;32@1b1-397a7 1258/6803 <== 31@297a6
 // J12 36@1b1-92a8;37@93b1-400a7 1177/6367 ==> 36@75a2
 /////////////////////////////////////////////////////////////////////////////
-// jinglu.json ==> DJ
-// DJ[  "1"].k	==> "1" (D1 ==> K1)
-// DJ[  "1"].d	==> "1" (D1)
-// DJ[  "1"].dv	==> "1@1b1-311a6;2@1b1-317a7;3@1b1-293a6;4@1b1-302a5"
-// DJ[  "1"].dvn==> "1@8-4346(4339);2@8-4431(4424);3@8-4094(4087);4@8-4219(4212)[17062]"
-//				==> [{"bookLines":17062},{"vol":"1","volLines":4339,"volLineBgn":8},{"vol":"2","volLines":4424,"volLineBgn":8},{"vol":"3","volLines":4087,"volLineBgn":8},{"vol":"4","volLines":4212,"volLineBgn":8}]
-// DJ[  "1"].j	==> "1" (D1 ==> J1)
-// DJ[  "1"].jv	==> "1@1b1-314a9;2@1b1-319a8;3@1b1-315a8;4@1b1-306a6"
-// DJ[  "1"].jvn==> "1@9-5017(5009);2@9-5096(5088);3@9-5032(5024);4@9-4886(4878)[19999]"
-// 				==> [{"bookLines":19999},{"vol":"1","volLines":5009,"volLineBgn":9},{"vol":"2","volLines":5088,"volLineBgn":9},{"vol":"3","volLines":5024,"volLineBgn":9},{"vol":"4","volLines":4878,"volLineBgn":9}]
-// DJ["357"].k	==> "377" (D357 ==> K377)
-// DJ["357"].d	==> "357" (D357)
-// DJ["357"].dv	==> "76@220b6-232a7"
-// DJ["357"].dvn==> "76@3079-3241(163)[163]"
-// 				==> [{"bookLines":163},{"vol":"76","volLines":163,"volLineBgn":3079}]
-// DJ["357"].j	==> "296" (D357 ==> J296)
-// DJ["357"].jv	==> "71@229a2-242a2"
-// DJ["357"].jvn==> ""71@3650-3858(209)[209]"
-// 				==> [{"bookLines":209},{"vol":"71","volLines":209,"volLineBgn":3650}]
-/////////////////////////////////////////////////////////////////////////////
-// jinglu.json ==> JD
-// JD[  "2"].k	==> "2" (J2 ==> K2)
-// JD[  "2"].j	==> "2" (J2)
-// JD[  "2"].jv	==> "5@1b1-21b4"
-// JD[  "2"].jvn==> "5@9-332(324)[324]"
-//  			==> [{"bookLines":324},{"vol":"5","volLines":324,"volLineBgn":9}]
-// JD[  "2"].d	==> "2" (J2 ==> D2)
-// JD[  "2"].dv	==> "5@1b1-20b7"
-// JD[  "2"].dvn==> "5@8-280(273)[273]"
-//  			==> [{"bookLines":273},{"vol":"5","volLines":273,"volLineBgn":8}]
-// JD[ "8a"].k	==> "8" (J8a ==> K8)
-// JD[ "8a"].j	==> "8a" (J8a)
-// JD[ "8a"].jv	==> "12@94a1-297a7;13@1b1-321a6"
-// JD[ "8a"].jvn==> "12@1489-4743(3255);13@9-5126(5118)[8373]"
-//  			==> [{"bookLines":8373},{"vol":"12","volLines":3255,"volLineBgn":1489},{"vol":"13","volLines":5118,"volLineBgn":9}]
-// JD[ "8a"].d	==> "7b" (J8a ==> D7b)
-// JD[ "8a"].dv	==> "12@92b1-302a7;13@1b1-313a5"
-// JD[ "8a"].dvn==> "12@1282-4221(2940);13@8-4373(4366)[7306]"
-//  			==> [{"bookLines":7306},{"vol":"12","volLines":2940,"volLineBgn":1282},{"vol":"13","volLines":4366,"volLineBgn":8}]
-debugger
-'use strict'
-/////////////////////////////////////////////////////////////////////////////
-function assert(EVALUATED,EXPECTED) { var v // EVALUATED should be equal to EXPECTED
-	if ( (v=JSON.stringify(eval(EVALUATED))) !== (EXPECTED=JSON.stringify(EXPECTED)))
-		console.log('EVALUATED', EVALUATED, v, 'not EXPECTED', EXPECTED)
-}
-/////////////////////////////////////////////////////////////////////////////
-// line('1b1',7) ==> ((1-1)*2+1)*7+1 ==> 8
-assert("line('1b1',7)",8)
-// line('311a6',7) ==> ((311-1)*2+0)*7+6 ==> (310*2)*7+6 ==> 620*7+6 ==> 4346
-assert("line('311a6',7)",4346)
+//	assert("line('1b1',7)",8)
+//		line('1b1',7) ==> ((1-1)*2+1)*7+1 ==> 8
+//	assert("line('311a6',7)",4346)
+//		line('311a6',7) ==> ((311-1)*2+0)*7+6 ==> (310*2)*7+6 ==> 620*7+6 ==> 4346
 /////////////////////////////////////////////////////////////////////////////
 function line(lineId,linesPerPage) { var m, PAGE, SIDE, LINE
 	m=lineId.match(/(\d+)([ab])(\d)/), PAGE=m[1], SIDE=m[2], LINE=m[3]
@@ -75,8 +29,8 @@ function line(lineId,linesPerPage) { var m, PAGE, SIDE, LINE
 	return ((PAGE-1)*2+SIDE)*linesPerPage+LINE
 }
 /////////////////////////////////////////////////////////////////////////////
-assert("lineId(8,7)",'1b1')
-assert("lineId(4346,7)",'311a6')
+//	assert("lineId(8,7)",'1b1')
+//	assert("lineId(4346,7)",'311a6')
 /////////////////////////////////////////////////////////////////////////////
 function lineId(line,linesPerPage){ var PAGE,SIDE,LINE
 	LINE=line%linesPerPage, PAGE=(line-LINE)/linesPerPage
@@ -84,7 +38,7 @@ function lineId(line,linesPerPage){ var PAGE,SIDE,LINE
 	return (PAGE+1)+SIDE+LINE
 }
 /////////////////////////////////////////////////////////////////////////////
-assert('volRange("1b1-311a6",7)',{"bgn":8,"end":4346})
+//	assert('volRange("1b1-311a6",7)',{"bgn":8,"end":4346})
 /////////////////////////////////////////////////////////////////////////////
 function volRange(lineRangeId,linesPerPage){var m, lineId, lineBgn, lineEnd
 	m=lineRangeId.match(/(\d+[ab]\d)-(\d+[ab]\d)/)
@@ -93,12 +47,12 @@ function volRange(lineRangeId,linesPerPage){var m, lineId, lineBgn, lineEnd
 	return {bgn:lineBgn, end:lineEnd}
 }
 /////////////////////////////////////////////////////////////////////////////
-assert('volRanges("1@1b1-311a6;2@1b1-317a7;3@1b1-293a6;4@1b1-302a5",7)',
+/* assert('volRanges("1@1b1-311a6;2@1b1-317a7;3@1b1-293a6;4@1b1-302a5",7)',
 	[{bookLines:17062}
 	,{vol:'1',volLines:4339,volLineBgn:8}
 	,{vol:'2',volLines:4424,volLineBgn:8}
 	,{vol:'3',volLines:4087,volLineBgn:8}
-	,{vol:'4',volLines:4212,volLineBgn:8}])
+	,{vol:'4',volLines:4212,volLineBgn:8}]) */
 /////////////////////////////////////////////////////////////////////////////
 function volRanges(volRangesId,linesPerPage){var m,vol,volRangeId,r,volLines,bookLines=0,result=[]
 	volRangesId.split(';').forEach(function(range){
@@ -111,116 +65,52 @@ function volRanges(volRangesId,linesPerPage){var m,vol,volRangeId,r,volLines,boo
 	return result
 }
 /////////////////////////////////////////////////////////////////////////////
-var fs=require('fs')
-var jinglu=JSON.parse(fs.readFileSync('jinglu.json'))
-var fieldValuep='([0-9liI!]+[ab][0-9liI!]-[0-9liI!]+[ab][0-9liI!]);?'
-var fieldValueg=RegExp(fieldValuep,'g'), fieldValuep=RegExp(fieldValuep)
-var DJ={},JD={},dRedef={},jRedef={},dj=[],dj=[]
-var linesPerPageD=7, linesPerPageJ=8
-/////////////////////////////////////////////////////////////////////////////
-jinglu.forEach(function(CK){var k,d,j,f,m,g,id,a,dv,DJD,jv,JDJ,dj,jd,r,n,dvn,jvn
-	k=d=j='' 
-	for(f in CK){
-		if(m=f.match(/^(K|D|J)(\d+)([a-z]?)/)){ // match only for groups K, D, or J
-			g=m[1], id=parseInt(m[2]), a=m[3]
-			if(g==='K'){
-				k=id+a // K id
-			}else if(g==='D'){
-				d=id+a,dv=CK[f] // D id and D volPages
-				if(DJ[d]) {
-					DJd=dRedef[d] // d should not be redefined !!!
-					if(!DJd) DJd=dRedef[d]=['K'+DJ[d].k+' D'+d+':'+DJ[d].dv]
-					DJd.push('K'+k+' D'+d+':'+CK[f])
-				}
-			}else{
-				j=id+a,jv=CK[f] // J id and J volPages
-				if(JD[j]) {
-					JDj=jRedef[j] // j should not be redefined !!!
-					if(!JDj) JDj=jRedef[j]=['K'+JD[j].k+' J'+j+':'+JD[j].jv]
-					JDj.push('K'+k+' J'+j+':'+CK[f])
-				}
-			}
-			if(k && d && j) { // both d and j defined
-				dj=DJ[d]={}, dj.k=k, dj.d=d, dj.dv=dv, dj.j=j, dj.jv=jv
-				jd=JD[j]={}, jd.k=k, jd.j=j, jd.jv=jv, jd.d=d, jd.dv=dv, nd=nj=0
-				jd.dvn=dj.dvn=dvn=volRanges(dv,linesPerPageD)
-				jd.jvn=dj.jvn=jvn=volRanges(jv,linesPerPageJ)
-			}
-		}
-	}
-})
-/////////////////////////////////////////////////////////////////////////////
-for(d in dRedef){ console.log('????? D'+d,'redefined in',dRedef[d].join(', ')) }
-for(j in jRedef){ console.log('????? J'+j,'redefined in',jRedef[j].join(', ')) }
-/////////////////////////////////////////////////////////////////////////////
-assert('DJ[  "1"].k',"1")
-assert('DJ[  "1"].d',"1")
-assert('DJ[  "1"].dv',"1@1b1-311a6;2@1b1-317a7;3@1b1-293a6;4@1b1-302a5")
-assert('DJ[  "1"].dvn',[{"bookLines":17062},{"vol":"1","volLines":4339,"volLineBgn":8},{"vol":"2","volLines":4424,"volLineBgn":8},{"vol":"3","volLines":4087,"volLineBgn":8},{"vol":"4","volLines":4212,"volLineBgn":8}])
-assert('DJ[  "1"].j',"1")
-assert('DJ[  "1"].jv',"1@1b1-314a9;2@1b1-319a8;3@1b1-315a8;4@1b1-306a6")
-assert('DJ[  "1"].jvn',[{"bookLines":19999},{"vol":"1","volLines":5009,"volLineBgn":9},{"vol":"2","volLines":5088,"volLineBgn":9},{"vol":"3","volLines":5024,"volLineBgn":9},{"vol":"4","volLines":4878,"volLineBgn":9}])
-assert('DJ["357"].k',"377")
-assert('DJ["357"].d',"357")
-assert('DJ["357"].dv',"76@220b6-232a7")
-assert('DJ["357"].dvn',[{"bookLines":163},{"vol":"76","volLines":163,"volLineBgn":3079}])
-assert('DJ["357"].j',"296")
-assert('DJ["357"].jv',"71@229a2-242a2")
-assert('DJ["357"].jvn',[{"bookLines":209},{"vol":"71","volLines":209,"volLineBgn":3650}])
-assert('JD["2"].k',"2")
-assert('JD["2"].j',"2")
-assert('JD["2"].jv',"5@1b1-21b4")
-assert('JD["2"].jvn',[{"bookLines":324},{"vol":"5","volLines":324,"volLineBgn":9}])
-assert('JD["2"].d',"2")
-assert('JD["2"].dv',"5@1b1-20b7")
-assert('JD["2"].dvn',[{"bookLines":273},{"vol":"5","volLines":273,"volLineBgn":8}])
-assert('JD["8a"].k',"8")
-assert('JD["8a"].j',"8a")
-assert('JD["8a"].jv',"12@94a1-297a7;13@1b1-321a6")
-assert('JD["8a"].jvn',[{"bookLines":8373},{"vol":"12","volLines":3255,"volLineBgn":1489},{"vol":"13","volLines":5118,"volLineBgn":9}])
-assert('JD["8a"].d',"7b")
-assert('JD["8a"].dv',"12@92b1-302a7;13@1b1-313a5")
-assert('JD["8a"].dvn',[{"bookLines":7306},{"vol":"12","volLines":2940,"volLineBgn":1282},{"vol":"13","volLines":4366,"volLineBgn":8}])
-/////////////////////////////////////////////////////////////////////////////
 function compare(a,b,fld){ var x,ia,fa,ib,fb
 	x=(ia=parseInt(fa=fld?a[fld]:a))-(ib=parseInt(fb=fld?b[fld]:b))  // 先比數值
 	return x=x?x:fa<fb?-1:fa===fb?0:1						// 若同數值 就比字符
 }
-function dList(DJ){ return DJ.map(function(d){return d.d}).join() }
-function dCompare(a,b){ return compare(a,b,'d') }
-assert(dCompare(DJ['1'],DJ['2']),-1)
-assert(dCompare(DJ['1'],DJ['3']),-2)
-assert(dCompare(DJ['1'],DJ['4']),-3)
-assert(dCompare(DJ['3'],DJ['2']),1)
-assert(dCompare(DJ['2'],DJ['1']),1)
-assert(dCompare(DJ['3'],DJ['3']),0)
-assert(dCompare(DJ['7a'],DJ['7b']),-1)
-assert(dCompare(DJ['7b'],DJ['7a']),1)
-assert(dCompare(DJ['7a'],DJ['7a']),0)
-function jCompare(a,b){ return compare(a,b,'j') }
 /////////////////////////////////////////////////////////////////////////////
-dj=[]
-for(d in DJ) if(DJ[d].j) dj.push(DJ[d])
-dj=dj.sort(dCompare)
-console.log(dList(dj))
-fs.writeFileSync('dj.json',JSON.stringify(dj,'','').replace(/,{/g,'\r\n,{'))
-jd=[]
-for(j in JD) if(JD[j].d) jd.push(JD[j])
-jd=jd.sort(jCompare)
-console.log(dList(jd))
-fs.writeFileSync('jd.json',JSON.stringify(jd,'','').replace(/,{/g,'\r\n,{'))
+// assert('lib.dList([{d:'a'},{d:'b'},{d:'c'}]','a,b,c')
 /////////////////////////////////////////////////////////////////////////////
-function djmaping(dLnId){
+function dList(dj){ return dj.map(function(d){return d.d}).join() }
+/////////////////////////////////////////////////////////////////////////////
+// assert(lib.dCompare(DJ['1'],DJ['2']),-1)	D1<D2
+// assert(lib.dCompare(DJ['1'],DJ['3']),-2)	D1<D3
+// assert(lib.dCompare(DJ['1'],DJ['4']),-3)	D1<D4
+// assert(lib.dCompare(DJ['3'],DJ['2']),1)		D3>D2
+// assert(lib.dCompare(DJ['2'],DJ['1']),1)		D2>D1
+// assert(lib.dCompare(DJ['3'],DJ['3']),0)		D3=D3
+// assert(lib.dCompare(DJ['7a'],DJ['7b']),-1)	D7a<D7b
+// assert(lib.dCompare(DJ['7b'],DJ['7a']),1)	D7b>D7a
+// assert(lib.dCompare(DJ['7a'],DJ['7a']),0)	D7a=D7a
+/////////////////////////////////////////////////////////////////////////////
+function dCompare(a,b){ return compare(a,b,'d') } // compare D bookId
+function jCompare(a,b){ return compare(a,b,'j') } // compare J bookId
+/////////////////////////////////////////////////////////////////////////////
+// read dj.json and jd.json
+/////////////////////////////////////////////////////////////////////////////
+if (typeof(dj)==='undefined'){
+	var fs=require('fs')
+	var dj=JSON.parse(fs.readFileSync('dj.json'))
+	var jd=JSON.parse(fs.readFileSync('jd.json'))
+}
+/////////////////////////////////////////////////////////////////////////////
+// assert("djmapping('1@1b1')","J1:1@1b1")
+// assert("djmapping('31@297a6')","J12:36@75a2")
+// assert("djmapping('32@397a7')","J12:37@400a7")
+/////////////////////////////////////////////////////////////////////////////
+function djmapping(dLnId){
 	var m, vol, volLine, i, dji, dvn, at, j, jvn, msg, volLines, volLineBgn
-// djmaping('1@1b1') ==> 'J1:1@1b1'
+	var dBookLines, jBookLines, n, jLnId
+// djmapping('1@1b1') ==> 'J1:1@1b1'
 // searching D 1@1b1 founded in dj (K1)
 // D1 1@1b1-311a6;2@1b1-317a7;3@1b1-293a6;4@1b1-302a5 0/17062 <== 1@1b1
 // J1 1@1b1-314a9;2@1b1-319a8;3@1b1-315a8;4@1b1-306a6 0/19999 ==> 1@1b1 
-// djmaping('31@297a6') ==> "J12:36@75a2"
+// djmapping('31@297a6') ==> "J12:36@75a2"
 // searching D 31@297a6 founded in dj (K28)
 // D11 31@207b1-297a6;32@1b1-397a7 1258/6803 <== 31@297a6
 // J12 36@1b1-92a8;37@93b1-400a7 1177/6367 ==> 36@75a2
-// djmaping('32@397a7') ==> "J12:37@400a7"
+// djmapping('32@397a7') ==> "J12:37@400a7"
 // searching D 32@397a7 founded in dj (K28)
 // D11 31@207b1-297a6;32@1b1-397a7 6802/6803 <== 32@397a7
 // J12 36@1b1-92a8;37@93b1-400a7 6366/6367 ==> 37@400a7
@@ -249,7 +139,16 @@ function djmaping(dLnId){
 		}
 	}
 }
+djmapping.test={
+	line:line,
+	lineId:lineId,
+	volRange:volRange,
+	volRanges:volRanges,
+	compare:compare,
+	dList:dList,
+	dCompare:dCompare,
+	jCompare:jCompare,
+	djmapping:djmapping	
+}
 /////////////////////////////////////////////////////////////////////////////
-assert("djmaping('1@1b1')","J1:1@1b1")
-assert("djmaping('31@297a6')","J12:36@75a2")
-assert("djmaping('32@397a7')","J12:37@400a7")
+module.exports=djmapping
