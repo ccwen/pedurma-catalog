@@ -1,4 +1,4 @@
-// djmapping.js // line, lineId, volRange, volRanges, compare, dCompare, jCompare
+// djmapping.js // line, lineId, volRange, volRanges, dCompare, jCompare
 var linesPerPageD=7, linesPerPageJ=8
 /////////////////////////////////////////////////////////////////////////////
 // djmapping('1@1b1') ==> 'J1:1@1b1'
@@ -100,8 +100,8 @@ if (typeof(dj)==='undefined'){
 // assert("djmapping('32@397a7')","J12:37@400a7")
 /////////////////////////////////////////////////////////////////////////////
 function djmapping(dLnId){
-	var m, vol, volLine, i, dji, dvn, at, j, jvn, msg, volLines, volLineBgn
-	var dBookLines, jBookLines, n, jLnId
+	var msg, volLines, volLineBgn
+	var n, jLnId
 // djmapping('1@1b1') ==> 'J1:1@1b1'
 // searching D 1@1b1 founded in dj (K1)
 // D1 1@1b1-311a6;2@1b1-317a7;3@1b1-293a6;4@1b1-302a5 0/17062 <== 1@1b1
@@ -114,28 +114,31 @@ function djmapping(dLnId){
 // searching D 32@397a7 founded in dj (K28)
 // D11 31@207b1-297a6;32@1b1-397a7 6802/6803 <== 32@397a7
 // J12 36@1b1-92a8;37@93b1-400a7 6366/6367 ==> 37@400a7
-	m=dLnId.match(/(\d+)@(\d+[ab]\d)/)
+	var m=dLnId.match(/(\d+)@(\d+[ab]\d)/)
 	if(!m) { console.log('????? invalited D LineId '+dLnId); return }
-	vol=m[1], volLine=line(m[2],linesPerPageD)
-	for(i=0; i<dj.length; i++){ // search in all D books for dLnId
-		dji=dj[i], dvn=dji.dvn, dBookLines=dvn[0].bookLines, at=0, jvn=dji.jvn, jBookLines=jvn[0].bookLines
-		for(j=1;j<dvn.length;j++){ // search in all vols of a D book for dLnId
-			var dvnj=dvn[j]
-			if( vol===dvnj.vol && (volLines=dvnj.volLines)<=volLines+(volLineBgn=dvnj.volLineBgn) ) { // found
-				msg ='searching D '+dLnId+' founded in dj (K'+dji.k+')\n'
-				msg+='D'+dji.d+' '+dji.dv+' '+(at+=volLine-volLineBgn)+'/'+dBookLines+' '+dLnId+'\n'
-				msg+='J'+dji.j+' '+dji.jv+' '+(at=Math.round(at/dBookLines*jBookLines))+'/'+jBookLines
-				for(j=1;j<jvn.length;j++){
+	var vol=m[1], volLine=line(m[2],linesPerPageD)
+	for(var i=0; i<dj.length; i++){ // search in each book D dji.d for dLnId
+		var dji=dj[i], dvn=dji.dvn, dBookLines=dvn[0].bookLines
+		var at=0, jvn=dji.jvn, jBookLines=jvn[0].bookLines
+		for(var j=1;j<dvn.length;j++){ // search in each vol of dij.dvn of book D dji.d for dLnId
+			var dvnj=dvn[j], volLines=dvnj.volLines, volLineBgn=dvnj.volLineBgn
+			if( vol===dvnj.vol && volLine>=volLineBgn && volLine<=volLineBgn+volLines ) { // found dLnId in D book dji.d
+			//	msg ='searching D '+dLnId+' founded in dj (K'+dji.k+')\n'
+				at+=volLine-volLineBgn
+			//	msg+='D'+dji.d+' '+dji.dv+' '+at+'/'+dBookLines+' '+dLnId+'\n'
+				at=Math.round(at/dBookLines*jBookLines)
+			//	msg+='J'+dji.j+' '+dji.jv+' '+at+'/'+jBookLines
+				for(j=1;j<jvn.length;j++){ // search jLnId in each vol of dji.jvn of corresponding J book dji.j
 					var jvnj=jvn[j]
-					if(at<(n=jvnj.volLines)){
+					if(at<(n=jvnj.volLines)){ // found jLnId at jvnj.vol in dji.jvn
 						jLnId=jvnj.vol+'@'+lineId(at+jvnj.volLineBgn,linesPerPageJ)
-						console.log(msg+' '+jLnId)
+					//	console.log(msg+' '+jLnId)
 						return 'J'+dji.j+':'+jLnId
 					}
 					at-=n
 				}
 			}
-			at+=dvnj.volLines
+			at+=volLines
 		}
 	}
 }
@@ -144,11 +147,10 @@ djmapping.test={
 	lineId:lineId,
 	volRange:volRange,
 	volRanges:volRanges,
-	compare:compare,
 	dList:dList,
+	compare:compare,
 	dCompare:dCompare,
-	jCompare:jCompare,
-	djmapping:djmapping	
+	jCompare:jCompare	
 }
 /////////////////////////////////////////////////////////////////////////////
 module.exports=djmapping

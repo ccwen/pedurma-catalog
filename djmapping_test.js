@@ -1,4 +1,7 @@
-// djmapping_test.js // read jinglu.json, construct DJ and JD, search dLineId, return jLineId
+// djmapping_test.js // read jinglu, construct DJ, search dLineId, return jLineId
+function deepEqual(A,B){
+	return equal(JSON.stringify(A),JSON.stringify(B))
+}
 /////////////////////////////////////////////////////////////////////////////
 // var djmapping=require("djmapping");
 // djmapping('1@1b1') ==> 'J1:1@1b1'
@@ -99,8 +102,7 @@ jinglu.forEach(function(CK){var k,d,j,nd,nj,f,m,g,id,a,dv,DJd,jv,JDj,dj,jd,r,n,d
 for(var d in dRedef){ console.log('????? D'+d,'redefined in',dRedef[d].join(', ')) }
 for(var j in jRedef){ console.log('????? J'+j,'redefined in',jRedef[j].join(', ')) }
 /////////////////////////////////////////////////////////////////////////////
-var djmapping=require("./djmapping")
-var T=djmapping.test
+var djmapping=require("./djmapping"), T=djmapping.test
 /////////////////////////////////////////////////////////////////////////////
 // line(lineId,linesPerPage) ==> line#
 	QUnit.test('01. line() testing',function(){
@@ -125,20 +127,8 @@ var T=djmapping.test
 /////////////////////////////////////////////////////////////////////////////
 //	volRanges(volRangesId,linesPerPage) ==> [{bookLines:n},{vol:v,volLines:n,volLineBgn:at},...]
 	QUnit.test('04. volRanges() testing',function(){
-	var t=T.volRanges("1@1b1-311a6;2@1b1-317a7;3@1b1-293a6;4@1b1-302a5",7)
-	equal(t[0].bookLines,17062)
-	equal(t[1].vol,'1')
-	equal(t[1].volLines,4339)
-	equal(t[1].volLineBgn,8)
-	equal(t[2].vol,'2')
-	equal(t[2].volLines,4424)
-	equal(t[2].volLineBgn,8)
-	equal(t[3].vol,'3')
-	equal(t[3].volLines,4087)
-	equal(t[3].volLineBgn,8)
-	equal(t[4].vol,'4')
-	equal(t[4].volLines,4212)
-	equal(t[4].volLineBgn,8)
+	deepEqual(T.volRanges("1@1b1-311a6;2@1b1-317a7;3@1b1-293a6;4@1b1-302a5",7),
+		[{bookLines:17062},{vol:'1',volLines:4339,volLineBgn:8},{vol:'2',volLines:4424,volLineBgn:8},{vol:'3',volLines:4087,volLineBgn:8},{vol:'4',volLines:4212,volLineBgn:8}])
 })
 /////////////////////////////////////////////////////////////////////////////
 var DJd, JDj, dj=[], jd=[]
@@ -170,8 +160,8 @@ fs.writeFileSync('jd.json',JSON.stringify(jd,'','').replace(/,{/g,'\r\n,{'))
 	equal(DJ[  "1"].dv,"1@1b1-311a6;2@1b1-317a7;3@1b1-293a6;4@1b1-302a5")
 	equal(DJ["357"].dv,"76@220b6-232a7")
 //	DJ[d].dvn ==> volRangsArray of D
-//	deepEqual(DJ[  "1"].dvn,[{"bookLines":17062},{"vol":"1","volLines":4339,"volLineBgn":8},{"vol":"2","volLines":4424,"volLineBgn":8},{"vol":"3","volLines":4087,"volLineBgn":8},{"vol":"4","volLines":4212,"volLineBgn":8}])
-//	deepEqual(DJ["357"].dvn,[{"bookLines":163},{"vol":"76","volLines":163,"volLineBgn":3079}])
+	deepEqual(DJ[  "1"].dvn,[{"bookLines":17062},{"vol":"1","volLines":4339,"volLineBgn":8},{"vol":"2","volLines":4424,"volLineBgn":8},{"vol":"3","volLines":4087,"volLineBgn":8},{"vol":"4","volLines":4212,"volLineBgn":8}])
+	deepEqual(DJ["357"].dvn,[{"bookLines":163},{"vol":"76","volLines":163,"volLineBgn":3079}])
 //	DJ[d].j ==> j
 	equal(DJ[  "1"].j,"1")
 	equal(DJ["357"].j,"296")
@@ -179,8 +169,8 @@ fs.writeFileSync('jd.json',JSON.stringify(jd,'','').replace(/,{/g,'\r\n,{'))
 	equal(DJ[  "1"].jv,"1@1b1-314a9;2@1b1-319a8;3@1b1-315a8;4@1b1-306a6")
 	equal(DJ["357"].jv,"71@229a2-242a2")
 //	DJ[d].jvn ==> volRangsArray of J
-//	deepEqual(DJ[  "1"].jvn,[{"bookLines":19999},{"vol":"1","volLines":5009,"volLineBgn":9},{"vol":"2","volLines":5088,"volLineBgn":9},{"vol":"3","volLines":5024,"volLineBgn":9},{"vol":"4","volLines":4878,"volLineBgn":9}])
-//	deepEqual(DJ["357"].jvn,[{"bookLines":209},{"vol":"71","volLines":209,"volLineBgn":3650}])
+	deepEqual(DJ[  "1"].jvn,[{"bookLines":19999},{"vol":"1","volLines":5009,"volLineBgn":9},{"vol":"2","volLines":5088,"volLineBgn":9},{"vol":"3","volLines":5024,"volLineBgn":9},{"vol":"4","volLines":4878,"volLineBgn":9}])
+	deepEqual(DJ["357"].jvn,[{"bookLines":209},{"vol":"71","volLines":209,"volLineBgn":3650}])
 })
 /////////////////////////////////////////////////////////////////////////////
 	QUnit.test('06. JD[j] testing',function(){
@@ -194,8 +184,8 @@ fs.writeFileSync('jd.json',JSON.stringify(jd,'','').replace(/,{/g,'\r\n,{'))
 	equal(JD["2"].jv,"5@1b1-21b4")
 	equal(JD["8a"].jv,"12@94a1-297a7;13@1b1-321a6")
 //	DJ[j].jvn ==> volRangsArray of J
-//	deepEqual(JD["2"].jvn,[{"bookLines":324},{"vol":"5","volLines":324,"volLineBgn":9}])
-//	deepEqual(JD["8a"].jvn,[{"bookLines":8373},{"vol":"12","volLines":3255,"volLineBgn":1489},{"vol":"13","volLines":5118,"volLineBgn":9}])
+	deepEqual(JD["2"].jvn,[{"bookLines":324},{"vol":"5","volLines":324,"volLineBgn":9}])
+	deepEqual(JD["8a"].jvn,[{"bookLines":8373},{"vol":"12","volLines":3255,"volLineBgn":1489},{"vol":"13","volLines":5118,"volLineBgn":9}])
 //	DJ[j].d ==> d
 	equal(JD["2"].d,"2")
 	equal(JD["8a"].d,"7b")
@@ -203,12 +193,11 @@ fs.writeFileSync('jd.json',JSON.stringify(jd,'','').replace(/,{/g,'\r\n,{'))
 	equal(JD["2"].dv,"5@1b1-20b7")
 	equal(JD["8a"].dv,"12@92b1-302a7;13@1b1-313a5")
 //	DJ[j].dvn ==> volRangsArray of D
-//	deepEqual(JD["2"].dvn,[{"bookLines":273},{"vol":"5","volLines":273,"volLineBgn":8}])
-//	deepEqual(JD["8a"].dvn,[{"bookLines":7306},{"vol":"12","volLines":2940,"volLineBgn":1282},{"vol":"13","volLines":4366,"volLineBgn":8}])
+	deepEqual(JD["2"].dvn,[{"bookLines":273},{"vol":"5","volLines":273,"volLineBgn":8}])
+	deepEqual(JD["8a"].dvn,[{"bookLines":7306},{"vol":"12","volLines":2940,"volLineBgn":1282},{"vol":"13","volLines":4366,"volLineBgn":8}])
 })
 /////////////////////////////////////////////////////////////////////////////
 	QUnit.test('07. dCompare() testing',function(){
-	debugger
 	equal(T.dCompare(DJ['1'],DJ['2']),-1)
 	equal(T.dCompare(DJ['1'],DJ['3']),-2)
 	equal(T.dCompare(DJ['1'],DJ['4']),-3)
@@ -221,7 +210,7 @@ fs.writeFileSync('jd.json',JSON.stringify(jd,'','').replace(/,{/g,'\r\n,{'))
 })
 /////////////////////////////////////////////////////////////////////////////
 	QUnit.test('08. djmapping() testing',function(){
-	equal(T.djmapping('1@1b1'),"J1:1@1b1")
-	equal(T.djmapping('31@297a6'),"J12:36@75a2")
-	equal(T.djmapping('32@397a7'),"J12:37@400a7")
+	equal(djmapping('1@1b1'),"J1:1@1b1")
+	equal(djmapping('31@297a6'),"J12:36@75a2")
+	equal(djmapping('32@397a7'),"J12:37@400a7")
 })
