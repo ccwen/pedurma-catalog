@@ -8,7 +8,7 @@ var line=[];
 for(var i=0; i<lst.length; i++){
 	line=fs.readFileSync(lst[i],"utf8").split(/\r?\n/);
 	var pbnum=0;
-	for(var j in line){
+	for(var j=0; j<line.length; j++){
 		var findpb=line[j].indexOf("<pb id=");
 		if(findpb>-1){
 			var pbid=line[j].substr(findpb+8,7);
