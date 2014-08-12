@@ -71,54 +71,60 @@ var getFnLine=function(M,N){
 	var out=[];
 	var i=0;
 	var j=0;
-	console.log(M[0],N[0])
 	//debugger//跑M的while，M的第一項比較N的第一項
 	while(i<M.length){
 		//若M>N則N再往下走直到N=M則push
 		while(j<N.length-1 && M[i][1]>N[j][0]) j++; 
 		if(M[i][1] == N[j][0]){
 			
-			console.log(M[i][0],N[j][1]);
+			//console.log(M[i][0],N[j][1]);
 			out.push([M[i][0],N[j][1],N[j][2]]);
 		}
 		i++;
 	}
-	return out; //[J id,file name,line offset]
+	return out; //[J id,file name,line]
 }
 
-var fixLineNum=function(){
-	//從getFnLine(M,N)得到[J id,file name,line offset]
-	var out=[];
-	var arr=getFnLine(M,N);
+var fixLineNum=function(Jid,line){//input is Jid
 	//從J id回到sutra抓起始行
-	for(var i in arr){
-		var p=sutra[arr[i][0]].split("-");
-		out.push(p[0]);
-		//取出起始行的行數
+	var p=sutra[Jid].split("-");//[start line,end line]
+	p=p[0];//取出start line
+	var lineOffset=p.substr(p.length-1);//取出line offset
+	var fixLine=parseInt(lineOffset)+line;
+	
+	return fixLine;
+}
+
+var getFileName=function(lstNum){
+	//從getFnLine(M,N)得到[J id,file name,line offset]
+	var fn=lst[lstNum];
+		
+	return fn;//回傳檔名
+}
+
+var fetchLine=function(fn,ln){
+	var file=fs.readFileSync("../jiangkangyur/"+fn,"utf8").split(/\r?\n/);
+	var lineContent=file[ln];
+	//用fixLineNum找出該行
+	//回傳此行內容
+	return lineContent;
+}
+
+var insertId=function(filterFunc){
+	var arr=getFnLine(M,N);//[J id,file name,line]
+	var out=[];
+	for(var i =0; i<arr.length; i++){
+		var ln=fixLineNum(arr[i][0],arr[i][2])-1; //ln=line number (Jid,line)
+		var fn=getFileName(arr[i][1]);
+		var lineContent=fetchLine(fn,ln);
+		if (filterFunc&&lineContent) if (filterFunc(lineContent)) continue;
+		out.push([fn,ln,arr[i][0],lineContent]);
 	}
-	//回傳 line offset＋sutra內行數
+	
 	return out;
 }
 
-var getFileName=function(){
-	//從getFnLine(M,N)得到[J id,file name,line offset]
-	//回傳檔名：lst[file name]
-}
-
-var fetchLine=function(){
-	//用getFileName打開該檔
-	//var file=fs.readFileSync("../jiangkangyur/"+檔案名稱,"utf8").split(/\r?\n/);
-	//用fixLineNum找出該行
-	//回傳此行內容
-}
-
-var xxx=function(){
-	var ln=fixLineNum(); //ln=line number
-	var fn=getFileName();
-	//.push([]);
-}
-
-var insertId=function(){
+var insertId1=function(){
 	///取上面的輸出結果
 	var input=getFnLine(sutra,pb2f);
 	//console.log(run);//////////
@@ -139,7 +145,11 @@ var insertId=function(){
 var M=ObjSortNvline(sutra);//[J名,起始頁數的虛擬行]
 var N=ArrSortNvline(pb2f);//[虛擬行,檔案名,行數]
 console.time("t1");
-console.log(fixLineNum());
+//console.log(insertId());
+var out=insertId(function(L){
+	return L.indexOf("title")>-1
+});
+console.log(out)
 
 //console.log(getFnLine(M,N));
 //ArrSortNvline(pb2f)
