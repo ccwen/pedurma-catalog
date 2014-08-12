@@ -1,9 +1,21 @@
+
+
+var lstfilename="jiangkangyur.lst"
+var filterKey="title"
+
+
+
+
+
+
+
+
 ///載入LJ_nocross.json & pb2f.js
 var fs=require("fs");
 var pb2f=require("./pb2f");
 var vline=require("./vline.js");
 var sutra=JSON.parse(fs.readFileSync("./LJ_nocorss.json","utf8"));
-var lst=fs.readFileSync("jiangkangyur.lst","utf8").split(/\r?\n/);
+var lst=fs.readFileSync(lstfilename,"utf8").split(/\r?\n/);
 var run=0;
 var getFnLine1=function(input1,input2){
 	var out=[];
@@ -141,15 +153,32 @@ var insertId1=function(){
 
 }
 
+//[fn,ln,sutraid]
+var patchFiles=function(arr){
+	var c=0;
+	for(var i=0; i<arr.length;i++){
+		var fn="../jiangkangyur/"+arr[i][0];
+		//console.log(fn);
+		var ln=arr[i][1];
+		var sutraid=arr[i][2];
+		var file=fs.readFileSync(fn,"utf8").split(/\r?\n/);
+		if(!file[ln]) console.log(fn,ln,sutraid);
+		else {
+			file[ln]='<sutra id="'+sutraid+'"/>'+file[ln];
+			c++;
+		}
+		fs.writeFileSync(fn,file.join("\n"),"utf8");
+	}
+	console.log(c,"id insert");
+}
 
 var M=ObjSortNvline(sutra);//[J名,起始頁數的虛擬行]
 var N=ArrSortNvline(pb2f);//[虛擬行,檔案名,行數]
 console.time("t1");
-//console.log(insertId());
-var out=insertId(function(L){
-	return L.indexOf("title")>-1
-});
-console.log(out)
+
+out=insertId();
+patchFiles(out);
+//console.log(out)
 
 //console.log(getFnLine(M,N));
 //ArrSortNvline(pb2f)
