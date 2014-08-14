@@ -1,0 +1,9 @@
+CK 27&28
+J11 J12 ga 34.1b1 overlap
+
+CK46
+OCR error
+
+CK118
+J45 print error 323b8->323a8
+
