@@ -15,21 +15,14 @@ var parseVolPage=function(str){
 
 var volpb2vl=function(str){
 	var out=[];
-	//for(var i in str){}
 	var volpage=parseVolPage(str);
 	if(! volpage){console.log(str); return 0;}
-	//out.push(volpage["vol"]);
 	if(volpage["side"]=="a"){side=1;}
 	else if(volpage["side"]=="b"){side=2;}
 	else if(volpage["side"]=="c"){side=3;}
 	else if(volpage["side"]=="d"){side=4;}
 	
 	var vline=volpage["vol"]*500*4*10+volpage["page"]*4*10+side*10+volpage["line"];
-	/*var volpage=str.split(/[@.]/);
-	var vol=parseInt(volpage[0]);
-	var page=parseInt(volpage[1].substr(0,volpage[1].length-1));
-	var side=volpage[1].substr(volpage[1].length-1);
-	var vline=vol*500*4*10+page*4*10+side*10;*/
 	
 	return vline;
 }
@@ -37,9 +30,6 @@ var volpb2vl=function(str){
 //console.log(volpb2vl('96.305a'));
 
 var vl2volpb=function(vline){
-	//var out=[];
-	//for(var i in f2pb){
-		//var vline=f2pb[i];
 		var vol=Math.floor(vline/(500*4*10));
 		var page_p=vline%(500*4*10);
 		var page=Math.floor(page_p/(4*10));
@@ -50,7 +40,7 @@ var vl2volpb=function(vline){
 		else if(side==3){side="c";}
 		else if(side==4){side="d";}
 		var volpb=vol+"."+page+side;
-	//}
+
 	return volpb;
 }
 

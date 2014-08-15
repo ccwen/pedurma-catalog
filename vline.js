@@ -45,10 +45,10 @@ var vl2volpb=function(vline){
 		var page=Math.floor(page_p/(4*10));
 		var side_p=page_p%(4*10);
 		var side=Math.floor(side_p/10);
-		if(side==1){side="a";}
-		else if(side==2){side="b";}
-		else if(side==3){side="c";}
-		else if(side==4){side="d";}
+		if(side==0){side="a";}
+		else if(side==1){side="b";}
+		else if(side==2){side="c";}
+		else if(side==3){side="d";}
 		var volpb=vol+"."+page+side;
 	//}
 	return volpb;
