@@ -1,23 +1,29 @@
-<html>
-<script src="rvp2rvp.js"></script>
+﻿<html>
+<script src="sutranames.js"></script>
+<script src="taishonames.js"></script>
 <script src="j-pedurma.js"></script>
 <script src="d-pedurma.js"></script>
+<script src="rvp2rvp.js"></script>
+<script src="search_name.js"></script>
+<body>
+	<input id="input" value="39.20b2"></input>
+	<button onclick="fromVolpage()">search</button>
 
-<input id="input" value="39.20b2"></input>
-<button onclick="fromVolpage()">search</button>
-
-<INPUT TYPE="radio" NAME="version" VALUE=1 CHECKED>J
-	<span id="J_jing"></span>
-	<span id="J_page"></span>	
-<INPUT TYPE="radio" NAME="version" VALUE=2>D
-	<span id="D_jing"></span>
-	<span id="D_page"></span>
-<INPUT TYPE="radio" NAME="version" VALUE=3>T
-	<span id="T_jing"></span>
-	<span id="T_page"></span>
-<br><span id="range"></span>
-<br><span id="corresRange"></span>
-<br><span id="corresLine"></span>
-
+	<INPUT TYPE="radio" NAME="version" VALUE=1 CHECKED>J
+		<span id="J_jing"></span>
+		<span id="J_page"></span>	
+	<INPUT TYPE="radio" NAME="version" VALUE=2>D
+		<span id="D_jing"></span>
+		<span id="D_page"></span>
+	<INPUT TYPE="radio" NAME="version" VALUE=3>T
+		<span id="T_jing"></span>
+		<span id="T_page"></span>
+	<br><span id="range"></span>
+	<br><span id="corresRange"></span>
+	<br><span id="corresLine"></span>
+<br><input id="tofind" value="འ"></input>
+<button onclick="dosearch(tofind.value)">search</button>
+<div id="result"></div>
+</body>
 
 </html>
