@@ -31,7 +31,7 @@ var minusoneline=function(pageline) {
 		}
 	}
 
-	return vol+"@"+page+side+line;
+	return page+side+line;
 }
 var processbampo=function(line,idx,tsv) {
 	if (idx==0)return; //skip field name
