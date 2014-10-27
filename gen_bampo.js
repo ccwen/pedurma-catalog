@@ -38,13 +38,17 @@ var processbampo=function(line,idx,tsv) {
 	if (idx==tsv.length-1) return;
 	var fields=line.split("\t");
 	var nextfields=tsv[idx+1].split("\t");
-	var data={sutra_nbampo:fields[0], jiang:fields[1],cone:fields[2],lhasa:fields[3],dege:fields[4]};
-
+	var data={sutra_nbampo:fields[0], jiang:fields[1],lhasa:fields[2],dege:fields[3]};
+	
+	if (!nextfields[0]) throw "missing nbampo at line:"+(idx+2)+" "+line;
+	if (!nextfields[1]) throw "missing jiang at line:"+(idx+2)+" "+line;
+	if (!nextfields[2]) throw "missing lhasa at line:"+(idx+2)+" "+line;
+	if (!nextfields[3]) throw "missing dege at line:"+(idx+2)+" "+line;
 	var next={sutra_nbampo:nextfields[0], 
 		       jiang:minusoneline(nextfields[1]),
-		       cone:minusoneline(nextfields[2]),
-		       lhasa:minusoneline(nextfields[3]),
-		       dege:minusoneline(nextfields[4])};
+		       //cone:minusoneline(nextfields[2]),
+		       lhasa:minusoneline(nextfields[2]),
+		   dege:minusoneline(nextfields[3])};
 	var nbampo=parseInt(data.sutra_nbampo.substr(7));
 	var jiang_sutra=parseInt(data.sutra_nbampo.substr(2,4));
 	var newdata={};
