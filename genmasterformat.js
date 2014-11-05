@@ -9,7 +9,9 @@ var parseRange=function(s,sid,ckid) {
 		var r=ranges[i];
 
 		var sep=r.indexOf("@");
-		if (sep==-1) throw "invalid entry"+s;
+		if (sep==-1) {
+			throw "invalid entry "+s;
+		}
 		var vol=r.substr(0,sep);
 		vol="00"+vol;
 		vol=vol.substr(vol.length-3);

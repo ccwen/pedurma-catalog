@@ -2,6 +2,7 @@ var fs=require("fs");
 var jinglu=JSON.parse(fs.readFileSync("jinglu.json","utf8"));
 var bampotsv=fs.readFileSync("bampo.tsv","utf8").replace(/\r?\n/g,"\n").split("\n")
 
+var j2k=require("./j-k.js");
 var getSutra=function( ret, key) {
 	var out="";
 	var found=jinglu.some(function(jing){
@@ -49,13 +50,15 @@ var processbampo=function(line,idx,tsv) {
 		       //cone:minusoneline(nextfields[2]),
 		       lhasa:minusoneline(nextfields[2]),
 		   dege:minusoneline(nextfields[3])};
+		   
 	var nbampo=parseInt(data.sutra_nbampo.substr(7));
-	var jiang_sutra=parseInt(data.sutra_nbampo.substr(2,4));
+	var jiang_sutraid=parseInt(data.sutra_nbampo.substr(2,4));
 	var newdata={};
-	newdata['J'+jiang_sutra+'_'+nbampo]=data.jiang+"-"+next.jiang;
-	newdata['D'+getSutra("D","J"+jiang_sutra)+"_"+nbampo]=data.dege+"-"+next.dege;
-	newdata['H'+getSutra("H","J"+jiang_sutra)+"_"+nbampo]=data.lhasa+"-"+next.lhasa;
-	newdata['C'+getSutra("C","J"+jiang_sutra)+"_"+nbampo]=data.cone+"-"+next.cone;
+	newdata['K'+getSutra("K","J"+jiang_sutraid)+'_'+nbampo]="";
+	newdata['J'+jiang_sutraid+'_'+nbampo]=data.jiang+"-"+next.jiang;
+	newdata['D'+getSutra("D","J"+jiang_sutraid)+"_"+nbampo]=data.dege+"-"+next.dege;
+	newdata['H'+getSutra("H","J"+jiang_sutraid)+"_"+nbampo]=data.lhasa+"-"+next.lhasa;
+//	newdata['C'+getSutra("C","J"+jiang_sutraid)+"_"+nbampo]=data.cone+"-"+next.cone;
 
 	console.log(JSON.stringify(newdata,""," ")+",");
 }
