@@ -1,8 +1,8 @@
 var fs=require("fs");
 var jinglu=JSON.parse(fs.readFileSync("jinglu.json","utf8"));
 var bampotsv=fs.readFileSync("bampo.tsv","utf8").replace(/\r?\n/g,"\n").split("\n")
-
-var j2k=require("./j-k.js");
+var old2new=JSON.parse(fs.readFileSync("old2new_sutraid.json","utf8")); //from jiangkangyur/gen_sutraid.js
+//var j2k=require("./j-k.js");
 var getSutra=function( ret, key) {
 	var out="";
 	var found=jinglu.some(function(jing){
@@ -34,18 +34,26 @@ var minusoneline=function(pageline) {
 
 	return page+side+line;
 }
+var newsutra_nbampo=function(oldfilename) {
+	var newsutraid=old2new[oldfilename.substr(0,6)];
+	if (!newsutraid) {
+		throw "new sutra id not found from "+oldfilename;
+	}
+	return newsutraid+oldfilename.substr(oldfilename.length-4);
+}
 var processbampo=function(line,idx,tsv) {
 	if (idx==0)return; //skip field name
 	if (idx==tsv.length-1) return;
 	var fields=line.split("\t");
 	var nextfields=tsv[idx+1].split("\t");
-	var data={sutra_nbampo:fields[0], jiang:fields[1],lhasa:fields[2],dege:fields[3]};
+
+	var data={sutra_nbampo:newsutra_nbampo(fields[0]), jiang:fields[1],lhasa:fields[2],dege:fields[3]};
 	
 	if (!nextfields[0]) throw "missing nbampo at line:"+(idx+2)+" "+line;
 	if (!nextfields[1]) throw "missing jiang at line:"+(idx+2)+" "+line;
 	if (!nextfields[2]) throw "missing lhasa at line:"+(idx+2)+" "+line;
 	if (!nextfields[3]) throw "missing dege at line:"+(idx+2)+" "+line;
-	var next={sutra_nbampo:nextfields[0], 
+	var next={sutra_nbampo:newsutra_nbampo(nextfields[0]), 
 		       jiang:minusoneline(nextfields[1]),
 		       //cone:minusoneline(nextfields[2]),
 		       lhasa:minusoneline(nextfields[2]),
