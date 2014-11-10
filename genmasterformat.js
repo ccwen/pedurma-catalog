@@ -1,8 +1,9 @@
 var jinglu=require("./jinglu.json");
 
 var recensions={"K":[],"D":[],"N":[],"C":[],"H":[],"J":[],"U":[]};
-
+var linenow;
 var parseRange=function(s,sid,ckid) {
+	if (!s) return [];
 	var ranges=s.split(";");
 	var out=[];
 	for (var i=0;i<ranges.length;i++) {
@@ -10,14 +11,16 @@ var parseRange=function(s,sid,ckid) {
 
 		var sep=r.indexOf("@");
 		if (sep==-1) {
-			throw "invalid entry "+s;
+			throw "invalid entry "+sid+" line"+linenow;
 		}
 		var vol=r.substr(0,sep);
 		vol="00"+vol;
 		vol=vol.substr(vol.length-3);
 		var pr=r.substr(sep+1);
 		var pagerange=pr.split("-");
-		if (pagerange.length!=2) throw "invalid entry"+ranges;
+		if (pagerange.length!=2) {//range is optional
+			//throw "invalid entry"+ranges+ " line"+linenow;
+		}
 		var fixwidth=5;
 		if (!ckid) { //pedurma
 			fixwidth=3;
@@ -26,7 +29,12 @@ var parseRange=function(s,sid,ckid) {
 			pagerange[j]="00"+pagerange[j];
 			pagerange[j]=pagerange[j].substr(pagerange[j].length-fixwidth);
 		}
-		var o=[sid,vol+"@"+pagerange[0]+"-"+pagerange[1]];
+		if (pagerange.length>1) {
+			var o=[sid,vol+"@"+pagerange[0]+"-"+pagerange[1]];	
+		} else {
+			var o=[sid,vol+"@"+pagerange[0]];	
+		}
+		
 		if (ckid) o.push(ckid);
 		out.push(o);
 	}
@@ -58,17 +66,43 @@ var checkSequencial=function(R) {
 	}
 	return error;
 }
-for (var i=0;i<jinglu.length;i++) parseEntry(jinglu[i]);
+for (var i=0;i<jinglu.length;i++) {
+	linenow=i;
+	parseEntry(jinglu[i]);
+}
+
+var removeRedundantSutra=function(R){
+	var hasbampo={};
+	R.forEach(function(r){
+		var sutranbampo=r[0].split("_");
+		if (sutranbampo.length!=2)return;
+		if (sutranbampo[1]=="1") {
+			hasbampo[sutranbampo[0]]=true;
+		}
+	});
+//remove repeated data in pedurma book,
+//bampo from treasure.org tsv
+//sutra from pedurma book
+	return R.filter(function(r){return !hasbampo[r[0]]});
+}
 
 for (var r in recensions) {
 
 	R=recensions[r].sort(function(a,b){return a[1]>b[1]?1:a[1]<b[1]?-1:0  });
 	var error=checkSequencial(R);
+
+	R=removeRedundantSutra(R);
+
 	var texts=JSON.stringify(R,"","").replace(/\],\[/g,"],\n[");
+
+
 	require("fs").writeFileSync(r.toLowerCase()+"-pedurma.json", 
 		texts,"utf8");
+
 
 	require("fs").writeFileSync(r.toLowerCase()+"-error.json", 
 		JSON.stringify(error,""," "),"utf8");
 
 }
+
+
