@@ -12,7 +12,7 @@
 //var fs=require("fs");
 var dosearch=function(volpage){
 	if(volpage.match("[@.]")){//如果輸入是volpage的話
-		var corresFromVolpage=fromVolpage(volpage);
+		var corresFromVolpage=fromVolpage(volpage,jPedurma,dPedurma);
 		//corresFromVolpage= [經號],[範圍],[對照經號],[對照範圍],[對照行]
 		document.getElementById("Jing").innerHTML=corresFromVolpage[0];
 		document.getElementById("range").innerHTML=corresFromVolpage[1];
@@ -55,11 +55,11 @@ var fromJing=function(Jing,from,to){
 }
 
 
-var fromVolpage=function(volpage){
+var fromVolpage=function(volpage,from,to){
 	//var volpage=document.getElementById("input").value;
 	var out=[];
-	var range=findRange(volpage);//range=[J經號,J範圍,K經號]
-	var corres_range=findCorresRange(range[2]);//corres_range=[D經號,D範圍]
+	var range=findRange(volpage,from);//range=[J經號,J範圍,K經號]
+	var corres_range=findCorresRange(range[2],to);//corres_range=[D經號,D範圍]
 	//算J和D的範圍
 	var vRange=countRange(range[1]);//[vStart,vEnd-vStart]
 	var corres_vRange=countRange(corres_range[0][1]);//[vStart,vEnd-vStart]
@@ -91,25 +91,25 @@ var countRange=function(range){//range=034@020a1-103b7
 }
 
 
-var findCorresRange=function(KJing){
+var findCorresRange=function(KJing,to){
 	var out=[];
-	for(var i=0; i<dPedurma.length; i++){
-		if(KJing == dPedurma[i][2]){
-			out.push([dPedurma[i][0],dPedurma[i][1]]);
+	for(var i=0; i<to.length; i++){
+		if(KJing == to[i][2]){
+			out.push([to[i][0],to[i][1]]);
 		}
 	}
 	return out;
 }
 
-var findRange=function(volpage){
+var findRange=function(volpage,from){
 	var out=[];
-	var Pedurma=startline2vline();
+	var Pedurma=startline2vline(from);
 	//將輸入轉為vline，找出此行所在的範圍
 	//for(var i=0; i<input.length; i++){}
 	var input_vline=volpb2vl(volpage);
 	for(var k=0; k<Pedurma.length; k++){
 		if(input_vline < Pedurma[k][1]){
-			out=jPedurma[k-1];//此行所在的範圍的[J經錄,J範圍,K經錄]
+			out=from[k-1];//此行所在的範圍的[J經錄,J範圍,K經錄]
 			break;
 		}
 	}
@@ -117,13 +117,13 @@ var findRange=function(volpage){
 }
 
 //Pedurma的起始行轉vline
-var startline2vline=function(){
+var startline2vline=function(from){
 	var out=[];
-	for(var j=0; j<jPedurma.length; j++){
-		var p=jPedurma[j][1].split("-");
+	for(var j=0; j<from.length; j++){
+		var p=from[j][1].split("-");
 		start=p[0];
 		var start_vline=volpb2vl(start);
-		out.push([jPedurma[j][0],start_vline]);//[經號,起始行的vline]
+		out.push([from[j][0],start_vline]);//[經號,起始行的vline]
 	}
 	return out;
 }
